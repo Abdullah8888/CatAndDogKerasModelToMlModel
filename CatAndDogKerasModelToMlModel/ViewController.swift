@@ -11,7 +11,6 @@ import UIKit
 enum Animal {
     case cat
     case dog
-    case notAnimail
 }
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
@@ -24,19 +23,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var imageView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        //let imageArra
-        print("*** CAT AND DOG CLASIFICATION ***")
+        
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        //self.sample()
-    }
-//    func sample() {
-//        for animal in animalArray {
-//            self.predict(image: animal!)
-//        }
-//    }
+
     
     @IBAction func takePic(_ sender: Any) {
         let imagePicker = UIImagePickerController()
@@ -64,9 +54,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     else if animal == .cat{
                         self.resultLbl.text = "Cat"
                     }
-                    else if animal == .notAnimail{
-                        self.resultLbl.text = "not sure"
-                    }
                 }
             }
         }
@@ -76,9 +63,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         do {
             if let resizedImage = resize(image: image, newSize: trainedImageSize), let pixelBuffer = resizedImage.toCVPixelBuffer() {
                 let prediction = try model.prediction(image: pixelBuffer)
-                print("the real result is 1 \(prediction.output)")
-                print("the real result is 2 \(prediction.output[0])")
-                print("the real result is 3 \(prediction.output[0].decimalValue)")
                 let value = prediction.output[0].intValue
                 print(value)
                 
@@ -89,9 +73,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 else if value == 0{
                     print("this is a cat")
                     return .cat
-                }
-                else {
-                    return .notAnimail
                 }
             }
         } catch {
